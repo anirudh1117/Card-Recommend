@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone  # Import timezone for default value
 import os
-from django.conf import settings
 
 def card_image_upload_path(instance, filename):
     """

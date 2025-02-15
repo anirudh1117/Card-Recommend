@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-4ua$)gnd3)$$=fxo6*mg_duz&%@rf2-io^4e&&m=j9!88gk%0l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['43.205.196.24']
+#ALLOWED_HOSTS = ['43.205.196.24']
+ALLOWED_HOSTS = []
 
 CORS_ALLOW_ALL_ORIGINS = False
 
@@ -41,13 +42,16 @@ CORS_ALLOWED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_ckeditor_5',
     'cards', 
+    'blog',
     'rest_framework',
     'corsheaders'
 ]
@@ -78,7 +82,7 @@ ROOT_URLCONF = 'creditcard_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,7 +101,7 @@ WSGI_APPLICATION = 'creditcard_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DEV_DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -115,7 +119,7 @@ DEV_DATABASES_2 = {
     }
 }
 
-DATABASES = {
+PROD_DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'carddb',
@@ -173,3 +177,306 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    # The version number of our log
+    'disable_existing_loggers': False,
+    # django uses some of its own loggers for internal operations. In case you want to disable them just replace the False above with true.
+    # A handler for WARNING. It is basically writing the WARNING messages into a file called WARNING.log
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'warning.log',
+        },
+    },
+    # A logger for WARNING which has a handler called 'file'. A logger can have multiple handler
+    'loggers': {
+        # notice the blank '', Usually you would put built in loggers like django or root here based on your needs
+        '': {
+            # notice how file variable is called in handler which has been defined above
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}
+
+acustomColorPalette = [
+    {
+        'color': 'hsl(4, 90%, 58%)',
+        'label': 'Red'
+    },
+    {
+        'color': 'hsl(340, 82%, 52%)',
+        'label': 'Pink'
+    },
+    {
+        'color': 'hsl(291, 64%, 42%)',
+        'label': 'Purple'
+    },
+    {
+        'color': 'hsl(262, 52%, 47%)',
+        'label': 'Deep Purple'
+    },
+    {
+        'color': 'hsl(231, 48%, 48%)',
+        'label': 'Indigo'
+    },
+    {
+        'color': 'hsl(207, 90%, 54%)',
+        'label': 'Blue'
+    },
+]
+
+
+# CKEditor configuration
+CKEDITOR_UPLOAD_PATH = "meida/blog/uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+customColorPalette = [
+    {"color": "hsl(4, 90%, 58%)", "label": "Red"},
+    {"color": "hsl(340, 82%, 52%)", "label": "Pink"},
+    {"color": "hsl(291, 64%, 42%)", "label": "Purple"},
+    {"color": "hsl(262, 52%, 47%)", "label": "Deep Purple"},
+    {"color": "hsl(231, 48%, 48%)", "label": "Indigo"},
+    {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
+]
+CKEDITOR_5_ALLOW_ALL_FILE_TYPES = True
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "removePlugins": ["WordCount"],
+        'width': 'auto',
+        'toolbarCanCollapse': True, 
+        "toolbar": [
+            "heading",
+            "horizontalLine",
+            "codeBlock",
+            "htmlEmbed",
+            "|",
+            "outdent",
+            "indent",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "underline",
+            "strikethrough",
+            "code",
+            "subscript",
+            "superscript",
+            "highlight",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "todoList",
+            "|",
+            "blockQuote",
+            "linkImage",
+            "insertImage",
+            "|",
+            "fontSize",
+            "fontFamily",
+            "fontColor",
+            "fontBackgroundColor",
+            "mediaEmbed",
+            "removeFormat",
+            "insertTable",
+            "sourceEditing",
+            "style",
+            "specialCharacters",
+            "fileUpload",
+            "showBlocks",
+            "selectAll",
+            "findAndReplace",
+            'Maximize',
+        ],
+    },
+    "comment": {
+        "language": {"ui": "en", "content": "ar"},
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+        ],
+    },
+    "extends": {
+        "language": "ru",
+        "blockToolbar": [
+            "paragraph",
+            "heading1",
+            "heading2",
+            "heading3",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+        ],
+        "toolbar": {
+            "items": [
+                "heading",
+                "horizontalLine",
+                "codeBlock",
+                "htmlEmbed",
+                "|",
+                "outdent",
+                "indent",
+                "|",
+                "bold",
+                "italic",
+                "link",
+                "underline",
+                "strikethrough",
+                "code",
+                "subscript",
+                "superscript",
+                "highlight",
+                "|",
+                "bulletedList",
+                "numberedList",
+                "todoList",
+                "|",
+                "blockQuote",
+                "linkImage",
+                "insertImage",
+                "|",
+                "fontSize",
+                "fontFamily",
+                "fontColor",
+                "fontBackgroundColor",
+                "mediaEmbed",
+                "removeFormat",
+                "insertTable",
+                "sourceEditing",
+                "style",
+                "specialCharacters",
+                "fileUpload",
+                "showBlocks",
+                "selectAll",
+                "findAndReplace",
+                'Maximize',
+            ],
+            "shouldNotGroupWhenFull": True,
+        },
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "|",
+                "imageStyle:alignLeft",
+                "imageStyle:alignRight",
+                "imageStyle:alignCenter",
+                "imageStyle:side",
+                "|",
+            ],
+            "styles": [
+                "full",
+                "side",
+                "alignLeft",
+                "alignRight",
+                "alignCenter",
+            ],
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties",
+                "toggleTableCaption",
+            ],
+            "tableProperties": {
+                "borderColors": customColorPalette,
+                "backgroundColors": customColorPalette,
+            },
+            "tableCellProperties": {
+                "borderColors": customColorPalette,
+                "backgroundColors": customColorPalette,
+            },
+        },
+        "heading": {
+            "options": [
+                {
+                    "model": "paragraph",
+                    "title": "Paragraph",
+                    "class": "ck-heading_paragraph",
+                },
+                {
+                    "model": "heading1",
+                    "view": "h1",
+                    "title": "Heading 1",
+                    "class": "ck-heading_heading1",
+                },
+                {
+                    "model": "heading2",
+                    "view": "h2",
+                    "title": "Heading 2",
+                    "class": "ck-heading_heading2",
+                },
+                {
+                    "model": "heading3",
+                    "view": "h3",
+                    "title": "Heading 3",
+                    "class": "ck-heading_heading3",
+                },
+            ],
+        },
+        "list": {
+            "properties": {
+                "styles": True,
+                "startIndex": True,
+                "reversed": True,
+            },
+        },
+        "link": {"defaultProtocol": "https://"},
+        "htmlSupport": {
+            "allow": [
+                {"name": "/.*/", "attributes": True,
+                    "classes": True, "styles": True},
+            ],
+        },
+        "mention": {
+            "feeds": [
+                {
+                    "marker": "@",
+                    "feed": [
+                        "@Barney",
+                        "@Lily",
+                        "@Marry Ann",
+                        "@Marshall",
+                        "@Robin",
+                        "@Ted",
+                    ],
+                    "minimumCharacters": 1,
+                },
+            ],
+        },
+        "style": {
+            "definitions": [
+                {"name": "Article category", "element": "h3",
+                    "classes": ["category"]},
+                {"name": "Info box", "element": "p", "classes": ["info-box"]},
+            ],
+        },
+    },
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "default",
+    "dark_mode_theme": "",
+}
+
+JAZZMIN_SETTINGS = {
+    # Whether to show the UI customizer on the sidebar
+    "show_ui_builder": True,
+    "changeform_format": "horizontal_tabs",
+    # override change forms on a per modeladmin basis
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+}

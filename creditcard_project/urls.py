@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('cards.urls')),  # Includes API routes from cards app
+    path('api/blog/',include('blog.urls')),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 
 ]
 
