@@ -1,11 +1,11 @@
-
+from rest_framework import generics
 from rest_framework.generics import RetrieveAPIView
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer,PostListSerializer
 
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Section
@@ -31,8 +31,6 @@ class PostDetailView(RetrieveAPIView):
     lookup_field = 'slug'
 
     def get_queryset(self):
-        # Return only published posts
-        # Optionally prefetch related data to improve performance
         queryset = Post.objects.filter(is_published=True).prefetch_related(
             'sections__images',
             'sections__credit_Cards',
@@ -41,9 +39,18 @@ class PostDetailView(RetrieveAPIView):
         return queryset
 
     def retrieve(self, request, *args, **kwargs):
-        # Let DRF handle the retrieval
-        instance = self.get_object()  # fetches post or raises 404
+        
+        instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class PostListView(generics.ListAPIView):
+    """
+    GET: List all Post objects without section data.
+    """
+    queryset = Post.objects.filter(is_published=True)
+    serializer_class = PostListSerializer
+
 
 

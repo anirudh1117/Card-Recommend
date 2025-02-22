@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from django_ckeditor_5.fields import CKEditor5Field
 from django_ckeditor_5.widgets import CKEditor5Widget
 
-from .models import Post, Section, Category, Tag, Image
+from .models import Post, Section, Category, Tag, Image,MetaKeywords
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -37,6 +37,7 @@ class SectionAdminForm(forms.ModelForm):
 
 class SectionAdmin(admin.ModelAdmin):
     list_display = ('post', 'section_type', 'content', 'previous_section')
+    list_filter = ('post__title', 'section_type')
     # autocomplete_fields = ['post', 'previous_section']
     fieldsets = (
         ("general", {"fields": ("post", "section_type", "previous_section",)}),
@@ -75,7 +76,14 @@ admin.site.register(Tag, TagAdmin)
 
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('section', 'caption', 'image')
+    list_filter = ('section__post__title',)
     # autocomplete_fields = ['section']
 
 
 admin.site.register(Image, ImageAdmin)
+
+class MetaKeywordAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+admin.site.register(MetaKeywords, MetaKeywordAdmin)

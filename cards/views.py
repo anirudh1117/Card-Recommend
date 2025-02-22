@@ -25,7 +25,7 @@ class CardIssuerViewSet(viewsets.ModelViewSet):
     ordering = ['name']  # Default ordering
 
     # Use the NoPagination class to disable pagination
-    pagination_class = NoPagination
+    #pagination_class = NoPagination
 
 class CreditCardViewSet(viewsets.ModelViewSet):
     queryset = CreditCard.objects.all().order_by('name')  # Sort by name

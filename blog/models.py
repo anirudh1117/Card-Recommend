@@ -18,6 +18,18 @@ class Category(models.Model):
             self.name_slug = slugify(self.name.upper())
         super().save(*args, **kwargs)
 
+class MetaKeywords(models.Model):
+    name = models.CharField(max_length=100)
+    name_slug = models.SlugField(blank=True, null=True, editable=False)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if self.name:
+            self.name_slug = slugify(self.name.upper())
+        super().save(*args, **kwargs)
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
@@ -74,12 +86,16 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    cover_image = models.FileField(upload_to='media/posts/images/', blank=True)
     slug = models.SlugField(unique=True, max_length=255, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     category = models.ManyToManyField('Category')
     tags = models.ManyToManyField('Tag')
+    meta_title = models.CharField(max_length=255, blank=True, null=True)
+    meta_description = models.TextField(blank=True, null=True)
+    meta_keywords = models.ManyToManyField('MetaKeywords')
     is_published = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
