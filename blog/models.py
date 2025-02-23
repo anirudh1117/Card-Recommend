@@ -18,6 +18,7 @@ class Category(models.Model):
             self.name_slug = slugify(self.name.upper())
         super().save(*args, **kwargs)
 
+
 class MetaKeywords(models.Model):
     name = models.CharField(max_length=100)
     name_slug = models.SlugField(blank=True, null=True, editable=False)
@@ -88,8 +89,8 @@ class Post(models.Model):
     description = models.TextField(blank=True)
     cover_image = models.FileField(upload_to='media/posts/images/', blank=True)
     slug = models.SlugField(unique=True, max_length=255, editable=False)
-    category = models.ManyToManyField('Category')
-    tags = models.ManyToManyField('Tag')
+    category = models.ManyToManyField('Category', blank=True)
+    tags = models.ManyToManyField('Tag', blank=True)
     meta_title = models.CharField(max_length=255, blank=True, null=True)
     meta_description = models.TextField(blank=True, null=True)
     meta_keywords = models.ManyToManyField('MetaKeywords')

@@ -52,5 +52,21 @@ class PostListView(generics.ListAPIView):
     queryset = Post.objects.filter(is_published=True)
     serializer_class = PostListSerializer
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        category_slug = self.request.query_params.get('category')
+        tag_slug = self.request.query_params.get('tag')
+
+        # Filter by Category slug if present
+        if category_slug:
+            qs = qs.filter(category__name_slug=category_slug)
+
+        # Filter by Tag slug if present
+        if tag_slug:
+            qs = qs.filter(tags__name_slug=tag_slug)
+
+        return qs
+
 
 
